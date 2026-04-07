@@ -28,7 +28,6 @@ export class CalcComponent {
   llOperator: string | null = null;
   lastInputNumber: string | null = null;
   lastCalleft: string | null = null;
-  lastPressedBeforeEqual: boolean = false;
 
   InputNumber(num: string) {
     this.errorMessage = '';
@@ -187,7 +186,6 @@ export class CalcComponent {
       this.isResultDisplayed = true;
       this.lastPressed = 'equal';
       this.lastCalleft = a.toString();
-      // this.displayValue = this.currentValue;
     }
 
     this.cosoleLog();
@@ -346,8 +344,8 @@ export class CalcComponent {
     console.log('this.isResultDisplayed',this.isResultDisplayed);
     console.log('this.lastCalleft',this.lastCalleft);
     console.log('this.errorMessage',this.errorMessage);
-    console.log('this.lastPressedBeforeEqual',this.lastPressedBeforeEqual);
     console.log('this.llOperator',this.llOperator);
+    console.log('this.lastOperator',this.lastOperator);
   }
 
 }
