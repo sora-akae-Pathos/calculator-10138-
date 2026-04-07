@@ -21,17 +21,19 @@ export class CalcComponent {
   previousValue: string = '0';
   operator: string | null = null;
   result: string = '';
-  // displayValue = '0';
   errorMessage: string = '';
   isResultDisplayed: boolean = false; 
   lastPressed: 'equal' | 'number' | 'operator' | null = null;
   lastOperator: string | null = null;
+  llOperator: string | null = null;
   lastInputNumber: string | null = null;
-  percentFlag: boolean = false;
   lastCalleft: string | null = null;
+  lastPressedBeforeEqual: boolean = false;
 
   InputNumber(num: string) {
+    this.errorMessage = '';
     try{
+      console.log('inputnumber');
     if(this.isResultDisplayed){
       if(this.currentValue === ''){
         this.currentValue = '0';
@@ -59,10 +61,8 @@ export class CalcComponent {
     }else{
       this.currentValue += num;
     }
-    // this.displayValue = this.currentValue;
     this.lastPressed = 'number';
     this.lastInputNumber = this.currentValue;
-    // this.percentFlag = false;
     this.cosoleLog();
   }catch(error: any){
     console.log(error);
@@ -88,6 +88,7 @@ export class CalcComponent {
       // this.previousValue = this.currentValue;
     }
     this.operator = op;
+    this.llOperator = op;
     this.isResultDisplayed = true;
     this.lastPressed = 'operator';
     this.cosoleLog();
@@ -104,27 +105,44 @@ export class CalcComponent {
   calculateResult() {
     try{
     if(this.lastPressed === 'equal'){
-      if(this.percentFlag){
-        const a = parseFloat(this.lastCalleft || '0');
-        const b = parseFloat(this.currentValue);
-        const r = this.calcCalc.calculate(a,b,this.lastOperator || '')
-        const result = this.calcCalc.formatResult(r);
-        this.currentValue = result;
-        this.lastCalleft = a.toString();
-        this.percentFlag = false;
-        this.isResultDisplayed = true;
-        this.lastPressed = 'equal';
-        this.cosoleLog();
-        return;
-      }else{
       console.log('d');
-      this.previousValue = this.currentValue;
-      const a = parseFloat(this.previousValue);
-      const b = parseFloat(this.lastInputNumber || '0');
-      const r = this.calcCalc.calculate(a,b,this.lastOperator || '');
-      const formatted = this.calcCalc.formatResult(r);
-      this.previousValue = this.currentValue;
-      this.currentValue = formatted;
+      if(this.llOperator === '+'){
+        this.previousValue = this.currentValue;
+        const a = parseFloat(this.previousValue);
+        const b = parseFloat(this.lastInputNumber || '0');
+        const r = this.calcCalc.calculate(a,b,this.lastOperator || '');
+        const formatted = this.calcCalc.formatResult(r);
+        this.previousValue = this.currentValue;
+        this.currentValue = formatted;
+        console.log('d1');
+      }else if(this.llOperator === '-'){
+        this.previousValue = this.currentValue;
+        const a = parseFloat(this.previousValue);
+        const b = parseFloat(this.lastInputNumber || '0');
+        const r = this.calcCalc.calculate(a,b,this.lastOperator || '');
+        const formatted = this.calcCalc.formatResult(r);
+        this.previousValue = this.currentValue;
+        this.currentValue = formatted;
+        console.log('d2');
+      }else if(this.llOperator === '*'){
+        this.previousValue = this.currentValue;
+        const a = parseFloat(this.previousValue);
+        const b = parseFloat(this.lastCalleft || '0');
+        const r = this.calcCalc.calculate(a,b,this.lastOperator || '');
+        const formatted = this.calcCalc.formatResult(r);
+        this.previousValue = this.currentValue;
+        this.currentValue = formatted;
+        console.log('d3');
+      }else if(this.llOperator === '/'){
+        this.previousValue = this.currentValue;
+        const a = parseFloat(this.previousValue);
+        const b = parseFloat(this.lastInputNumber || '0');
+        const r = this.calcCalc.calculate(a,b,this.lastOperator || '');
+        const formatted = this.calcCalc.formatResult(r);
+        this.previousValue = this.currentValue;
+        this.currentValue = formatted;
+        console.log('d4');
+      }
 
       // this.displayValue = this.currentValue;
       // if (this.lastOperator === '+'){
@@ -150,7 +168,7 @@ export class CalcComponent {
       // }
       this.cosoleLog();
       return;
-      }
+      
     }else if(!this.operator || this.previousValue === '0'){
       console.log('e');
       this.previousValue = this.currentValue;
@@ -171,6 +189,7 @@ export class CalcComponent {
       this.lastCalleft = a.toString();
       // this.displayValue = this.currentValue;
     }
+
     this.cosoleLog();
     }catch(error: any){
       if(error.message === '桁オーバーです。整数部分が10桁までの計算しかできません。' || error.message === '0で割ることはできません。ACボタンを押してください。'){
@@ -202,9 +221,7 @@ export class CalcComponent {
     this.operator = null;
     this.errorMessage = '';
     this.isResultDisplayed = false;
-    // this.displayValue = '0';
     this.lastPressed = null;
-    this.percentFlag = false;
     this.lastCalleft = null;
     this.lastOperator = null;
     this.lastInputNumber = null;
@@ -212,48 +229,56 @@ export class CalcComponent {
   }
   percent() {
     try{
-    if(this.currentValue === ''){
-      console.log('q1');
-      return;
-    }else if (this.percentFlag || this.lastPressed === 'equal'){
-      const a = parseFloat(this.lastCalleft || '0');
-      const b = parseFloat(this.currentValue);
-      const r = this.calcCalc.calculate(a,b,'%')
-      const formatted = this.calcCalc.formatResult(r);
-      // console.log('result',result);
-      // console.log('currentValue',this.currentValue);
-      // console.log('previousValue',this.previousValue);
-      this.currentValue = formatted;
-      this.lastCalleft = a.toString();
-      this.percentFlag = true;
-      console.log('q2');
-      this.cosoleLog();
-
-    }else if(this.previousValue === '0'){
+      if(!this.currentValue || !this.previousValue){
+        console.log('q1');
+        return;
+      }else if(this.lastPressed !== 'number'){
+        console.log('q2');
+        return;
+      }
       console.log('q3');
-      this.cosoleLog();
-      return;
-    }else{
-      console.log('q4');
       const a = parseFloat(this.previousValue);
       const b = parseFloat(this.currentValue);
-      const r = this.calcCalc.calculate(a,b,'%')
+      const r =this.calcCalc.calculate(a, b, '%');
       const formatted = this.calcCalc.formatResult(r);
-      // console.log('result',result);
-      // console.log('currentValue',this.currentValue);
-      // console.log('previousValue',this.previousValue);
-      this.lastCalleft = a.toString();
-      // this.previousValue = this.currentValue;
-      this.currentValue = formatted;
-      this.errorMessage = '';
-      this.isResultDisplayed = true;
-      this.percentFlag = true;
-      // this.displayValue = this.currentValue;
+      this.currentValue = formatted.toString();
       this.cosoleLog();
 
-    }
+    // if(this.currentValue === ''){
+    //   console.log('q1');
+    //   return;
+    // }else if (this.percentFlag || this.lastPressed === 'equal'){
+    //   console.log('q2');
+    //   const a = parseFloat(this.lastCalleft || '0');
+    //   const b = parseFloat(this.currentValue);
+    //   const r = this.calcCalc.calculate(a,b,'%')
+    //   const formatted = this.calcCalc.formatResult(r);
+    //   this.currentValue = formatted;
+    //   this.lastCalleft = a.toString();
+    //   this.percentFlag = true;
+    //   this.cosoleLog();
+
+    // }else if(this.previousValue === '0'){
+    //   console.log('q3');
+    //   this.cosoleLog();
+    //   return;
+    // }else{
+    //   console.log('q4');
+    //   const a = parseFloat(this.previousValue);
+    //   const b = parseFloat(this.currentValue);
+    //   const r = this.calcCalc.calculate(a,b,'%')
+    //   const formatted = this.calcCalc.formatResult(r);
+    //   this.lastCalleft = a.toString();
+    //   // this.previousValue = this.currentValue;
+    //   this.currentValue = formatted;
+    //   this.errorMessage = '';
+    //   this.isResultDisplayed = true;
+    //   this.percentFlag = true;
+    //   // this.displayValue = this.currentValue;
+    //   this.cosoleLog();
+
+    // }
     this.isResultDisplayed = true;
-    console.log('percent');
     }catch(error: any){
       console.log(error);
       if(error.message === '桁オーバーです。整数部分が10桁までの計算しかできません。' || error.message === '0で割ることはできません。ACボタンを押してください。'){
@@ -319,9 +344,10 @@ export class CalcComponent {
     console.log('this.lastPressed',this.lastPressed);
     console.log('this.operator',this.operator);
     console.log('this.isResultDisplayed',this.isResultDisplayed);
-    console.log('this.percentFlag',this.percentFlag);
     console.log('this.lastCalleft',this.lastCalleft);
     console.log('this.errorMessage',this.errorMessage);
+    console.log('this.lastPressedBeforeEqual',this.lastPressedBeforeEqual);
+    console.log('this.llOperator',this.llOperator);
   }
 
 }
