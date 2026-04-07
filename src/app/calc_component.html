@@ -1,0 +1,33 @@
+<div class="calculator">
+  <div class="display"> {{ currentValue }} </div>
+  <div *ngIf="errorMessage" class="error-message"> {{ errorMessage }} </div>
+
+  <div class="button">
+    <button class="button-ac" (click)="clearAll()">AC</button>
+    <button class="button-c" (click)="clear()">C</button>
+    <button (click)="percent()">%</button>
+    <button (click)="squareRoot()">√</button>
+    
+    <button (click)="InputNumber('7')">7</button>
+    <button (click)="InputNumber('8')">8</button>
+    <button (click)="InputNumber('9')">9</button>
+    <button (click)="setOperator('*')">*</button>
+
+    <button (click)="InputNumber('4')">4</button>
+    <button (click)="InputNumber('5')">5</button>
+    <button (click)="InputNumber('6')">6</button>
+    <button (click)="setOperator('/')">/</button>
+
+    <button (click)="InputNumber('1')">1</button>
+    <button (click)="InputNumber('2')">2</button>
+    <button (click)="InputNumber('3')">3</button>
+    <button (click)="setOperator('+')">+</button>
+
+    <button (click)="InputNumber('.')">.</button>
+    <button (click)="InputNumber('0')">0</button>
+    <button (click)="plusMinus()">±</button>
+    <button (click)="setOperator('-')">-</button>
+
+    <button class="button-equal" (click)="calculateResult()">=</button>
+  </div>
+</div>
