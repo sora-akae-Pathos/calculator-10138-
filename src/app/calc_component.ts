@@ -340,6 +340,9 @@ export class CalcComponent {
   }
   percent() {
     try{
+      if(this.currentValue === '0'){
+        return;
+      }
       if(this.lastPressed === 'operator'){
         if(this.operator === '+' || this.operator === '-'){
         console.log('c1');
