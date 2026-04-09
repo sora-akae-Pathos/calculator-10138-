@@ -17,8 +17,9 @@ export class CalcCalc {
     }else if(operator === '/'){
       if(b === 0){
         throw new Error('0で割ることはできません。ACボタンを押してください。');
-      }
+      }else{
       return a / b;
+      }
     }else if(operator === '%'){
       return a * b / 100;
     }else{
