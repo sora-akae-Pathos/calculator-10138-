@@ -121,12 +121,11 @@ describe('CalcComponent sequence test', () => {
 
 
 
-  it('80 + 10 % = → 88 になる', () => {
+  it('80 + 10 % → 88 になる', () => {
     component.InputNumber('80');
     component.setOperator('+');
     component.InputNumber('10');
     component.percent(); // %
-    component.Equal(); // =
 
     expect(component.currentValue).toBe('88');
   });
@@ -314,15 +313,268 @@ describe('CalcComponent sequence test', () => {
     expect(component.currentValue).toBe('100');
   });
 
-  it('100 / 4 % = = → 625 になる', () => {
+  it('100 / 4 % = → 625 になる', () => {
     component.InputNumber('100');
     component.setOperator('/');
     component.InputNumber('4');
     component.percent();         // %
     component.Equal(); // =
-    component.Equal(); // =
 
     expect(component.currentValue).toBe('625');
+  });
+
+  it('9 * 5 = + =  → 54 になる', () => {
+    component.InputNumber('9');
+    component.setOperator('*');
+    component.InputNumber('5');
+    component.Equal(); // =
+    component.setOperator('+');  // +
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('54');
+  });
+
+  it('9 * 5 = + = + =  → 99 になる', () => {
+    component.InputNumber('9');
+    component.setOperator('*');
+    component.InputNumber('5');
+    component.Equal(); // =
+    component.setOperator('+');  // +
+    component.Equal(); // =
+    component.setOperator('+');  // +
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('99');
+  });
+
+  it('9 * 5 = + = =  → 99 になる', () => {
+    component.InputNumber('9');
+    component.setOperator('*');
+    component.InputNumber('5');
+    component.Equal(); // =
+    component.setOperator('+');  // +
+    component.Equal(); // =
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('99');
+  });
+
+  it('10 / 2 = + = → 7 になる', () => {
+    component.InputNumber('10');
+    component.setOperator('/');
+    component.InputNumber('2');
+    component.Equal(); // =
+    component.setOperator('+');  // +
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('7');
+  });
+
+  it('10 / 2 = + = = → 12 になる', () => {
+    component.InputNumber('10');
+    component.setOperator('/');
+    component.InputNumber('2');
+    component.Equal(); // =
+    component.setOperator('+');  // +
+    component.Equal(); // =
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('12');
+  });
+
+  it('10 + 20 = 8 % → 21.6 になる', () => {
+    component.InputNumber('10');
+    component.setOperator('+');
+    component.InputNumber('20');
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.percent();         // %
+
+    expect(component.currentValue).toBe('21.6');
+  });
+
+  it('10 + 20 = 8 % = 8 % → 21.6 になる', () => {
+    component.InputNumber('10');
+    component.setOperator('+');
+    component.InputNumber('20');
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.percent();         // %
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.percent();         // %
+
+    expect(component.currentValue).toBe('21.6');
+  });
+
+  it('10 + 20 = 8 % = → 41.6 になる', () => {
+    component.InputNumber('10');
+    component.setOperator('+');
+    component.InputNumber('20');
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.percent();         // %
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('41.6');
+  });
+
+  it('10 + 20 = 8 % = 8 % = → 41.6 になる', () => {
+    component.InputNumber('10');
+    component.setOperator('+');
+    component.InputNumber('20');
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.percent();         // %
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.percent();         // %
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('41.6');
+  });
+
+  it('10 * 20 = 8 % → 0.8 になる', () => {
+    component.InputNumber('10');
+    component.setOperator('*');
+    component.InputNumber('20');
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.percent();         // %
+
+    expect(component.currentValue).toBe('0.8');
+  });
+
+  it('10 * 20 = 8 % = = → 80 になる', () => {
+    component.InputNumber('10');
+    component.setOperator('*');
+    component.InputNumber('20');
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.percent();         // %
+    component.Equal(); // =
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('80');
+  });
+
+  it('10 * 20 = 8 * 6 % → 0.48 になる', () => {
+    component.InputNumber('10');
+    component.setOperator('*');
+    component.InputNumber('20');
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.setOperator('*');
+    component.InputNumber('6');
+    component.percent();         // %
+
+    expect(component.currentValue).toBe('0.48');
+  });
+
+  it('10 * 20 = 8 * 6 % = → 3.84 になる', () => {
+    component.InputNumber('10');
+    component.setOperator('*');
+    component.InputNumber('20');
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.setOperator('*');
+    component.InputNumber('6');
+    component.percent();         // %
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('3.84');
+  });
+
+  it('2 * 5 % % = → 0.004 になる', () => {
+    component.InputNumber('2');
+    component.setOperator('*');
+    component.InputNumber('5');
+    component.percent();         // %
+    component.percent();         // %
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('0.004');
+  });
+
+  it('5 / 2 % % = → 6250 になる', () => {
+    component.InputNumber('5');
+    component.setOperator('/');
+    component.InputNumber('2');
+    component.percent();         // %
+    component.percent();         // %
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('6250');
+  });
+
+  it('2 + 5 % % = → 4.1 になる', () => {
+    component.InputNumber('2');
+    component.setOperator('+');
+    component.InputNumber('5');
+    component.percent();         // %
+    component.percent();         // %
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('4.1');
+  });
+
+  it('5 - 2 % % = → -0.1 になる', () => {
+    component.InputNumber('5');
+    component.setOperator('-');
+    component.InputNumber('2');
+    component.percent();         // %
+    component.percent();         // %
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('-0.1');
+  });
+
+  it('400 / 20 = 8 % → 40 になる', () => {
+    component.InputNumber('400');
+    component.setOperator('/');
+    component.InputNumber('20');
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.percent();         // %
+
+    expect(component.currentValue).toBe('40');
+  });
+
+  it('400 / 20 = 8 % = → 2 になる', () => {
+    component.InputNumber('400');
+    component.setOperator('/');
+    component.InputNumber('20');
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.percent();         // %
+    component.Equal(); // =
+
+    expect(component.currentValue).toBe('2');
+  });
+
+  it('400 / 20 = 8 % % → 200 になる', () => {
+    component.InputNumber('400');
+    component.setOperator('/');
+    component.InputNumber('20');
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.percent();         // %
+    component.percent();         // %
+
+    expect(component.currentValue).toBe('200');
+  });
+
+  it('400 / 20 = 8 % 8 % → 40 になる', () => {
+    component.InputNumber('400');
+    component.setOperator('/');
+    component.InputNumber('20');
+    component.Equal(); // =
+    component.InputNumber('8');
+    component.percent();         // %
+    component.InputNumber('8');
+    component.percent();         // %
+
+    expect(component.currentValue).toBe('40');
   });
 
 });
