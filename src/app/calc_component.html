@@ -4,30 +4,30 @@
 
   <div class="button">
     <button class="button-ac" (click)="clearAll()">AC</button>
-    <button class="button-c" (click)="clear()">C</button>
-    <button (click)="percent()">%</button>
-    <button (click)="squareRoot()">√</button>
+    <button class="button-c" (click)="clear()" [disabled] = "displaylock">C</button>
+    <button (click)="percent()" [disabled] = "displaylock">%</button>
+    <button (click)="squareRoot()" [disabled] = "displaylock">√</button>
     
-    <button (click)="InputNumber('7')">7</button>
-    <button (click)="InputNumber('8')">8</button>
-    <button (click)="InputNumber('9')">9</button>
-    <button (click)="setOperator('*')">*</button>
+    <button (click)="InputNumber('7')" [disabled] = "displaylock">7</button>
+    <button (click)="InputNumber('8')" [disabled] = "displaylock">8</button>
+    <button (click)="InputNumber('9')" [disabled] = "displaylock">9</button>
+    <button (click)="setOperator('*')" [disabled] = "displaylock">*</button>
 
-    <button (click)="InputNumber('4')">4</button>
-    <button (click)="InputNumber('5')">5</button>
-    <button (click)="InputNumber('6')">6</button>
-    <button (click)="setOperator('/')">/</button>
+    <button (click)="InputNumber('4')" [disabled] = "displaylock">4</button>
+    <button (click)="InputNumber('5')" [disabled] = "displaylock">5</button>
+    <button (click)="InputNumber('6')" [disabled] = "displaylock">6</button>
+    <button (click)="setOperator('/')" [disabled] = "displaylock">/</button>
 
-    <button (click)="InputNumber('1')">1</button>
-    <button (click)="InputNumber('2')">2</button>
-    <button (click)="InputNumber('3')">3</button>
-    <button (click)="setOperator('+')">+</button>
+    <button (click)="InputNumber('1')" [disabled] = "displaylock">1</button>
+    <button (click)="InputNumber('2')" [disabled] = "displaylock">2</button>
+    <button (click)="InputNumber('3')" [disabled] = "displaylock">3</button>
+    <button (click)="setOperator('+')" [disabled] = "displaylock">+</button>
 
-    <button (click)="InputNumber('.')">.</button>
-    <button (click)="InputNumber('0')">0</button>
-    <button (click)="plusMinus()">±</button>
-    <button (click)="setOperator('-')">-</button>
+    <button (click)="InputNumber('.')" [disabled] = "displaylock">.</button>
+    <button (click)="InputNumber('0')" [disabled] = "displaylock">0</button>
+    <button (click)="plusMinus()" [disabled] = "displaylock">±</button>
+    <button (click)="setOperator('-')" [disabled] = "displaylock">-</button>
 
-    <button class="button-equal" (click)="Equal()">=</button>
+    <button class="button-equal" (click)="Equal()" [disabled] = "displaylock">=</button>
   </div>
 </div>
